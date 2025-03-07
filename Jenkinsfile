@@ -80,8 +80,7 @@ pipeline {
                         sshPublisherDesc(
                             configName: "ssh",
                             transfers: [
-                                sshTransfer(sourceFiles: 'playbook.yml'
-                                execCommand: "ansible-playbook playbook.yml")
+                                sshTransfer(execCommand: "ansible-playbook playbook.yml")
                             ]
                         )
                     ]
