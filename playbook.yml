@@ -1,0 +1,16 @@
+---
+- name: Build the Docker image and Run the container
+  hosts: dev
+  user: ansible
+  connection: ssh
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Remove container if already exists
+      command: docker rm -f cont
+      ignore_errors: yes
+    - name: Remove image if alreday exists
+      command: docker rmi bhoomika720/ansible
+      ignore_errors: yes
+    - name: Pull and run the Docker image
+      command: docker run -it -d --name cont -p 8081:8080 bhoomika720/ansible

@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+    }
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('credentials')
+        AWS_SECRET_ACCESS_KEY = credentials('credentials')
+    }
+    stages {
+        stage("Pull  the Soruce Code") {
+            steps {
+                git branch: 'main', url: 'https://github.com/bhoomikadk16/ansible-terraform.git'
+            }
+        }
+        stage("Prepare Build") {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage("Terraform init") {
+             steps {
+                sh "terraform init"
+            }
+        }
+        stage("Terraform validate") {
+             steps {
+                sh "terraform validate"
+            }
+        }
+        stage("Terraform plan") {
+            steps {
+                sh "terraform plan"
+            }
+        }
+        stage("Terraform apply") {
+            steps {
+                sh "terraform apply --auto-approve"
+            }
+        }
+    }
+}
