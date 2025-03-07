@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage("Pull SRC") {
             steps {
-                git branch: 'main', url: 'https://github.com/bhoomikadk16/ansible-terraform.git'
+                git branch: 'main', url: 'https://github.com/bhoomikadk16/terraform-ansible-docker.git'
             }
         }
         stage("Prepare Build") {
