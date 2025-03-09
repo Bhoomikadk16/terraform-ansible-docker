@@ -31,27 +31,6 @@ pipeline {
                 ])
             }
         }
-        stage('Copy the Docker file to ansible') {
-            steps {
-                sshPublisher(publishers: [
-                    sshPublisherDesc(
-                        configName: "ssh",
-                        transfers: [
-                            sshTransfer(
-                                sourceFiles: 'Dockerfile',
-                                removePrefix: '',
-                                execCommand: """
-                                    docker rm -f cont
-                                    docker rmi ansi
-                                    docker build -t ansi . 
-                                    docker run -it -d --name cont -p 8081:8080 ansi
-                                """
-                            )
-                        ]
-                    )
-                ])
-            }
-        }
         stage("Build Docker image and push to Dockerhub") {
             steps {
                 sshPublisher(
@@ -80,7 +59,8 @@ pipeline {
                         sshPublisherDesc(
                             configName: "ssh",
                             transfers: [
-                                sshTransfer(execCommand: "ansible-playbook playbook.yml")
+                                sshTransfer(sourceFiles: 'playbook.yml',
+                                    execCommand: "ansible-playbook playbook.yml")
                             ]
                         )
                     ]
